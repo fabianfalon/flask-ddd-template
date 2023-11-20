@@ -1,10 +1,10 @@
 """ Course Domain """
 from datetime import datetime
-
+from src.contexts.shared.domain.aggregate_root import AggregateRoot
 from src.contexts.courses.domain.value_objects.course_id import CourseId
 
 
-class Course:
+class Course(AggregateRoot):
     id: str
     title: str
     duration: float

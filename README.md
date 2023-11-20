@@ -1,10 +1,11 @@
 ## Flask DDD hexagonal architecture
-Basic example of a project using ddd and hexagonal architecture.
+
+🐍 Basic example of a Python & Flask application using Domain-Driven Design.
 
 ## Local run
 ````
 pip install -r requirements.txt
-python app.py runserver
+flask --app hello run
 ````
 
 ### Formatters

@@ -3,6 +3,7 @@ from typing import List, NoReturn, Optional
 from abc import ABC, abstractmethod
 
 from src.contexts.courses.domain.course import Course
+from src.contexts.shared.domain.criteria.criteria import Criteria
 
 
 class CourseRepository(ABC):
@@ -25,9 +26,9 @@ class CourseRepository(ABC):
         ...
 
     @abstractmethod
-    def matching(self, criteria):
+    def matching(self, criteria: Criteria) -> List[Course]:
         ...
 
     @abstractmethod
-    def find_one_by_title(self, title):
+    def find_one_by_title(self, title) -> Course:
         ...
