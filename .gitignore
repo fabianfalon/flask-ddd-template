@@ -1,0 +1,37 @@
+
+
+# Git
+.git
+.github
+
+# IDE
+.idea
+.vscode
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.py[cod]
+*$py.class
+.pytest_cache/
+..mypy_cache/
+build
+*.egg-info
+
+# poetry
+.venv
+
+# C extensions
+*.so
+
+# Virtual environment
+venv
+
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
