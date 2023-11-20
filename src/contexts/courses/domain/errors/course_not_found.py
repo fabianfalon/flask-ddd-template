@@ -1,4 +1,4 @@
 class CourseNotFound(Exception):
-    def __init__(self, course_id: str):
-        super().__init__(f"Course with ID {course_id} not found.")
-        self.course_id = course_id
+    def __init__(self, title: str):
+        super().__init__(f"Course with title {title} not found.")
+        self.title = title

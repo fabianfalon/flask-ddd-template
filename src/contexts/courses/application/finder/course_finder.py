@@ -7,7 +7,7 @@ class CourseFinder:
         self.repository = repository
 
     def execute(self, title: str):
-        course = self.repository.find_one(title.lower().strip())
-        if course:
-            raise CourseNotFound()
+        course = self.repository.find_one_by_title(title.lower().strip())
+        if not course:
+            raise CourseNotFound(title)
         return course

@@ -3,10 +3,12 @@
 🐍 Basic example of a Python & Flask application using Domain-Driven Design.
 
 ## Local run
-````
-pip install -r requirements.txt
-flask --app hello run
-````
+````pip install -r requirements.txt````
+___
+````flask --app app run````
+
+### Run test
+````python -m pytest````
 
 ### Formatters
 

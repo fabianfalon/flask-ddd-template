@@ -1,3 +1,5 @@
 Flask==3.0.0
+marshmallow-3.20.1
 isort==5.12.0
 black==23.11.0
+pytest==7.4.3

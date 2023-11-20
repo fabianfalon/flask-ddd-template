@@ -26,3 +26,6 @@ class InMemoryRepository(CourseRepository):
 
     def find_one_by_title(self, title) -> Optional[Course]:
         return next(filter(lambda x: (x.title == title), self._courses), None)
+
+    def clear(self):
+        self._courses = []

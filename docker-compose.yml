@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+  flask-ddd:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8081:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=src.config.DevelopmentConfig

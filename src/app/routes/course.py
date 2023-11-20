@@ -1,7 +1,8 @@
 from flask import Blueprint, request
 from src.app.controllers.course_finder import CourseFinderController
-from src.app.controllers.create_controller import CreateCourseController
-from src.app.controllers.get_controller import GetCourseController
+from src.app.controllers.course_creator import CreateCourseController
+from src.app.controllers.course_list import GetCourseController
+from src.contexts.courses.infrastructure.serializers import CourseSchema
 
 blueprint = Blueprint("course", __name__)
 
@@ -10,14 +11,11 @@ blueprint = Blueprint("course", __name__)
 def create():
     if request.method == "POST":
         course = CreateCourseController().execute(request)
-        return {"id": course.id, "title": course.title}, 204
+        return CourseSchema().dump(course), 200
     else:
-        payload = []
         courses = GetCourseController().execute()
-        for course in courses:
-            payload.append({"id": course.id, "title": course.title, "duration": course.duration})
-
-        return payload, 20
+        data = CourseSchema(many=True).dump(list(courses))
+        return {"data": data}, 20
 
 
 @blueprint.route("/courses/<title>", methods=("GET",))
