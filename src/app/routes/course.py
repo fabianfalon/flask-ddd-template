@@ -15,7 +15,7 @@ def create():
     else:
         courses = GetCourseController().execute()
         data = CourseSchema(many=True).dump(list(courses))
-        return {"data": data}, 20
+        return {"data": data}, 200
 
 
 @blueprint.route("/courses/<title>", methods=("GET",))

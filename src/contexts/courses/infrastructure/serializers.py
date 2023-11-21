@@ -6,3 +6,4 @@ class CourseSchema(Schema):
     title = fields.Str()
     duration = fields.Float()
     created_at = fields.Str()
+    updated_at = fields.Str()
