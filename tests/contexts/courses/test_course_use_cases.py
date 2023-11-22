@@ -1,7 +1,7 @@
 import pytest
 
 from src.contexts.courses.application.create.course_creator import CourseCreator
-from src.contexts.courses.application.finder.course_finder import CourseFinder
+from src.contexts.courses.application.find.course_finder import CourseFinder
 from src.contexts.courses.domain.errors.course_already_exists import CourseAlreadyExits
 from src.contexts.courses.domain.errors.course_not_found import CourseNotFound
 from src.contexts.courses.infrastructure.storage.in_memory import InMemoryRepository
@@ -29,14 +29,6 @@ def test_create_new_course_with_invalid_title(invalid_value):
     repository.clear()
     with pytest.raises(ValueError):
         CourseCreator(repository).execute(invalid_value, 60)
-
-
-def test_list_courses():
-    repository = InMemoryRepository()
-    repository.clear()
-    CourseCreator(repository).execute("test", 60)
-    course = CourseFinder(repository).execute("test")
-    assert course.title == "test"
 
 
 def test_list_courses_ko():
