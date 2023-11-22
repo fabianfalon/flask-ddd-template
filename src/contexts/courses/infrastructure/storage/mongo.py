@@ -1,26 +1,30 @@
+import os
 import pymongo
-from typing import List, Dict, Optional, NoReturn
-from pymongo import MongoClient
-from bson.objectid import ObjectId
 
+from bson.objectid import ObjectId
 from src.contexts.courses.domain.course import Course
 from src.contexts.courses.domain.course_repository import CourseRepository
 
+from typing import Dict, List, NoReturn, Optional
+
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://127.0.0.1:27017/courses")
+
 
 class MongoRepository(CourseRepository):
-
     def __init__(self) -> None:
-        client: MongoClient = pymongo.MongoClient("mongodb://127.0.0.1:27017/courses")
+        client = pymongo.MongoClient(MONGO_URL)
         self.database = client.courses
 
     def save(self, course: Course) -> Course:
-        self.database.courses.insert_one({
-            "course_id": course.id,
-            "title": course.title,
-            "duration": course.duration,
-            "created_at": course.created_at,
-            "updated_at": course.updated_at
-        })
+        self.database.courses.insert_one(
+            {
+                "course_id": course.id,
+                "title": course.title,
+                "duration": course.duration,
+                "created_at": course.created_at,
+                "updated_at": course.updated_at,
+            }
+        )
 
     def delete(self, course_id: str) -> NoReturn:
         self.database.courses.delete_one({"_id": ObjectId(course_id)})
@@ -43,22 +47,23 @@ class MongoRepository(CourseRepository):
 
     def update(self, course: Course) -> Optional[Course]:
         record = self.database.course.update_one(
-            {"_id": ObjectId(course.id)}, {
+            {"_id": ObjectId(course.id)},
+            {
                 "$set": {
                     "title": course.title,
                     "duration": course.duration,
                 }
             },
-            upsert=False
+            upsert=False,
         )
         return None if not record else self.find(course.id)
 
     @staticmethod
     def _create_course(course: Dict) -> Course:
         return Course(
-            id=str(course.get("_id")),
+            course_id=str(course.get("_id")),
             title=course.get("title"),
             duration=float(course.get("duration")),
             created_at=course.get("created_at"),
-            updated_at=course.get("updated_at")
+            updated_at=course.get("updated_at"),
         )

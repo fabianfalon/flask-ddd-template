@@ -1,7 +1,10 @@
 """ Course Domain """
 from datetime import datetime
-from src.contexts.shared.domain.aggregate_root import AggregateRoot
+
+from src.contexts.courses.domain.value_objects.course_duration import CourseDuration
 from src.contexts.courses.domain.value_objects.course_id import CourseId
+from src.contexts.courses.domain.value_objects.course_title import CourseTitle
+from src.contexts.shared.domain.aggregate_root import AggregateRoot
 
 
 class Course(AggregateRoot):
@@ -11,20 +14,27 @@ class Course(AggregateRoot):
     updated_at: datetime
     created_at: datetime
 
-    def __init__(self, id, title, duration, updated_at, created_at) -> None:
-        self.id = id
+    def __init__(
+            self,
+            course_id: CourseId,
+            title: CourseTitle,
+            duration: CourseDuration,
+            updated_at,
+            created_at,
+    ) -> None:
+        self.id = course_id
         self.title = title
         self.duration = duration
         self.created_at = created_at
         self.updated_at = updated_at
 
     @staticmethod
-    def create(course_id: CourseId, title: str, duration: float):
+    def create(course_id: CourseId, course_title: CourseTitle, duration: CourseDuration):
         """Creates a new Course."""
-        course = Course
-        course.id = course_id.value
-        course.title = title
-        course.duration = duration
-        course.updated_at = datetime.now()
-        course.created_at = datetime.now()
-        return course
+        return Course(
+            course_id=course_id.value,
+            title=course_title.value,
+            duration=duration.value,
+            updated_at=datetime.now(),
+            created_at=datetime.now(),
+        )

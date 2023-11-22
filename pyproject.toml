@@ -8,10 +8,11 @@ line-length = 100
 target-version = ["py311"]
 
 [tool.isort]
+profile = "black"
 # https://github.com/timothycrosley/isort/
 src_paths = ["src", "tests"]
 known_typing = "typing,types,typing_extensions,mypy,mypy_extensions"
-sections = "FUTURE,TYPING,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+sections = "STDLIB,FUTURE,THIRDPARTY,FIRSTPARTY,TYPING,LOCALFOLDER"
 include_trailing_comma = true
 default_section = "FIRSTPARTY"
 multi_line_output = 3

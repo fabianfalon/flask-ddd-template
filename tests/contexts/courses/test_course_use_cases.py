@@ -1,4 +1,5 @@
 import pytest
+
 from src.contexts.courses.application.create.course_creator import CourseCreator
 from src.contexts.courses.application.finder.course_finder import CourseFinder
 from src.contexts.courses.domain.errors.course_already_exists import CourseAlreadyExits
@@ -12,6 +13,22 @@ def test_create_new_course():
     course = CourseCreator(repository).execute("test", 60)
     assert course.title == "test"
     assert course.duration == 60
+
+
+@pytest.mark.parametrize("invalid_value", ["22", -1, 101])
+def test_create_new_course_with_invalid_duration(invalid_value):
+    repository = InMemoryRepository()
+    repository.clear()
+    with pytest.raises(ValueError):
+        CourseCreator(repository).execute("test", invalid_value)
+
+
+@pytest.mark.parametrize("invalid_value", ["", None, 101])
+def test_create_new_course_with_invalid_title(invalid_value):
+    repository = InMemoryRepository()
+    repository.clear()
+    with pytest.raises(ValueError):
+        CourseCreator(repository).execute(invalid_value, 60)
 
 
 def test_list_courses():
