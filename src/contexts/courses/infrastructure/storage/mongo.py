@@ -30,7 +30,10 @@ class MongoRepository(CourseRepository):
         self.database.courses.delete_one({"_id": ObjectId(course_id)})
 
     def find_one(self, course_id: str) -> Optional[Course]:
-        ...
+        course = self.database.courses.find_one({"course_id": course_id})
+        if course:
+            return self._create_course(course)
+        return None
 
     def find_all(self) -> List[Course]:
         courses = self.database.courses.find()

@@ -33,16 +33,16 @@ class MongoRepository(ReviewRepository):
         ...
 
     def find_all(self) -> List[Review]:
-        courses = self.database.reviews.find()
-        return [self._create_review(course) for course in courses]
+        reviews = self.database.reviews.find()
+        return [self._create_review(review) for review in reviews]
 
     def matching(self, criteria):
         ...
 
     def find_one_by_course_id(self, title):
-        course = self.database.reviews.find_one({"title": title})
-        if course:
-            return self._create_review(course)
+        review = self.database.reviews.find_one({"title": title})
+        if review:
+            return self._create_review(review)
         return None
 
     def update(self, review: Review) -> Optional[Review]:

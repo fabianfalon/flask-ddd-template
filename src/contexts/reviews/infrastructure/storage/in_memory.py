@@ -7,8 +7,8 @@ from src.contexts.reviews.domain.review_repository import ReviewRepository
 class InMemoryReviewRepository(ReviewRepository):
     _reviews: List[Review] = []
 
-    def save(self, course: Review) -> Review:
-        self._reviews.append(course)
+    def save(self, review: Review) -> Review:
+        self._reviews.append(review)
 
     def delete(self, course_id: str) -> NoReturn:
         pass
