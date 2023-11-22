@@ -3,7 +3,9 @@ from flask import Blueprint, request
 from src.app.controllers.course_creator import CreateCourseController
 from src.app.controllers.course_finder import CourseFinderController
 from src.app.controllers.course_list import GetCourseController
+from src.app.controllers.review_creator import CreateReviewController
 from src.contexts.courses.infrastructure.serializers import CourseSchema
+from src.contexts.reviews.infrastructure.marshaller.serializers import ReviewSchema
 
 blueprint = Blueprint("course", __name__)
 
@@ -28,3 +30,9 @@ def course_finder(title):
             return {"error": f"course: {title} not found"}, 404
         return CourseSchema().dump(course), 200
 
+
+@blueprint.route("/courses/<course_id>/review", methods=("GET", "POST"))
+def course_review_creator(course_id):
+    if request.method == "POST":
+        review = CreateReviewController().execute(request, course_id)
+        return ReviewSchema().dump(review), 200
