@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 from src.contexts.reviews.domain.review import Review
 from src.contexts.shared.domain.criteria.criteria import Criteria
+from src.contexts.shared.domain.value_objects.course_id import CourseId
 
 
 class ReviewRepository(ABC):
@@ -14,11 +15,11 @@ class ReviewRepository(ABC):
         ...
 
     @abstractmethod
-    def delete(self, course_id: str) -> NoReturn:
+    def delete(self, review_id: str) -> NoReturn:
         ...
 
     @abstractmethod
-    def find_one(self, course_id: str) -> Optional[Review]:
+    def find_one(self, review_id: str) -> Optional[Review]:
         ...
 
     @abstractmethod
@@ -30,5 +31,5 @@ class ReviewRepository(ABC):
         ...
 
     @abstractmethod
-    def find_one_by_course_id(self, title) -> Review:
+    def find_by_course_id(self, course_id: CourseId) -> Review:
         ...

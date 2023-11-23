@@ -4,6 +4,7 @@ from src.app.controllers.courses.course_creator import CreateCourseController
 from src.app.controllers.courses.course_finder import CourseFinderController
 from src.app.controllers.courses.course_list import GetCourseController
 from src.app.controllers.reviews.review_creator import CreateReviewController
+from src.app.controllers.reviews.review_list_by_course import ListReviewByCourseController
 from src.contexts.courses.infrastructure.serializers import CourseSchema
 from src.contexts.reviews.infrastructure.marshaller.serializers import ReviewSchema
 
@@ -36,3 +37,7 @@ def course_review_creator(course_id):
     if request.method == "POST":
         review = CreateReviewController().execute(request, course_id)
         return ReviewSchema().dump(review), 200
+
+    reviews = ListReviewByCourseController().execute(course_id)
+    data = ReviewSchema(many=True).dump(reviews)
+    return {"data": data}, 200

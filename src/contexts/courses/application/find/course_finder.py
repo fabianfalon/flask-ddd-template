@@ -1,7 +1,7 @@
 from src.contexts.courses.domain.course import Course
 from src.contexts.courses.domain.course_repository import CourseRepository
 from src.contexts.courses.domain.course_finder import CourseFinder as DomainCourseFinder
-from src.contexts.courses.domain.value_objects.course_id import CourseId
+from src.contexts.shared.domain.value_objects.course_id import CourseId
 
 
 class CourseFinder:

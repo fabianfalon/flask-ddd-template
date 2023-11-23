@@ -4,6 +4,7 @@ import pymongo
 from bson.objectid import ObjectId
 from src.contexts.reviews.domain.review import Review
 from src.contexts.reviews.domain.review_repository import ReviewRepository
+from src.contexts.shared.domain.value_objects.course_id import CourseId
 
 from typing import Dict, List, NoReturn, Optional
 
@@ -26,10 +27,10 @@ class MongoRepository(ReviewRepository):
             }
         )
 
-    def delete(self, course_id: str) -> NoReturn:
+    def delete(self, review_id: str) -> NoReturn:
         pass
 
-    def find_one(self, course_id: str) -> Optional[Review]:
+    def find_one(self, review_id: str) -> Optional[Review]:
         ...
 
     def find_all(self) -> List[Review]:
@@ -39,11 +40,9 @@ class MongoRepository(ReviewRepository):
     def matching(self, criteria):
         ...
 
-    def find_one_by_course_id(self, title):
-        review = self.database.reviews.find_one({"title": title})
-        if review:
-            return self._create_review(review)
-        return None
+    def find_by_course_id(self, course_id: CourseId) -> Review:
+        reviews = self.database.reviews.find({"course_id": course_id})
+        return [self._create_review(review) for review in reviews]
 
     def update(self, review: Review) -> Optional[Review]:
         record = self.database.reviews.update_one(

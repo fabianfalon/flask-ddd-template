@@ -2,7 +2,7 @@
 from datetime import datetime
 
 from src.contexts.courses.domain.value_objects.course_duration import CourseDuration
-from src.contexts.courses.domain.value_objects.course_id import CourseId
+from src.contexts.shared.domain.value_objects.course_id import CourseId
 from src.contexts.courses.domain.value_objects.course_title import CourseTitle
 from src.contexts.shared.domain.aggregate_root import AggregateRoot
 

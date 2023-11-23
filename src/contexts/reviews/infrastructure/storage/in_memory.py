@@ -10,11 +10,11 @@ class InMemoryReviewRepository(ReviewRepository):
     def save(self, review: Review) -> Review:
         self._reviews.append(review)
 
-    def delete(self, course_id: str) -> NoReturn:
+    def delete(self, review_id: str) -> NoReturn:
         pass
 
-    def find_one(self, course_id: str) -> Optional[Review]:
-        return next(filter(lambda x: (x.id == course_id), self._reviews), None)
+    def find_one(self, review_id: str) -> Optional[Review]:
+        return next(filter(lambda x: (x.review_id == review_id), self._reviews), None)
 
     def find_all(self) -> List[Review]:
         return self._reviews
@@ -22,7 +22,7 @@ class InMemoryReviewRepository(ReviewRepository):
     def matching(self, criteria):
         pass
 
-    def find_one_by_course_id(self, course_id) -> Optional[Review]:
+    def find_by_course_id(self, course_id) -> Optional[Review]:
         return next(filter(lambda x: (x.course_id == course_id), self._reviews), None)
 
     def clear(self):

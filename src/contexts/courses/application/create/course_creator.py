@@ -4,7 +4,7 @@ from src.contexts.courses.domain.course import Course
 from src.contexts.courses.domain.course_repository import CourseRepository
 from src.contexts.courses.domain.errors.course_already_exists import CourseAlreadyExits
 from src.contexts.courses.domain.value_objects.course_duration import CourseDuration
-from src.contexts.courses.domain.value_objects.course_id import CourseId
+from src.contexts.shared.domain.value_objects.course_id import CourseId
 from src.contexts.courses.domain.value_objects.course_title import CourseTitle
 
 
