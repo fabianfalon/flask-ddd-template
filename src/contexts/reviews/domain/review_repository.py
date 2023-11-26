@@ -1,10 +1,10 @@
-from typing import List, NoReturn, Optional
-
 from abc import ABC, abstractmethod
 
 from src.contexts.reviews.domain.review import Review
 from src.contexts.shared.domain.criteria.criteria import Criteria
 from src.contexts.shared.domain.value_objects.course_id import CourseId
+
+from typing import List, NoReturn, Optional
 
 
 class ReviewRepository(ABC):

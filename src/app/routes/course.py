@@ -1,5 +1,4 @@
 from flask import Blueprint, request
-
 from src.app.controllers.courses.course_creator import CreateCourseController
 from src.app.controllers.courses.course_finder import CourseFinderController
 from src.app.controllers.courses.course_list import GetCourseController

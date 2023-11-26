@@ -1,7 +1,7 @@
-from typing import List, NoReturn, Optional
-
 from src.contexts.reviews.domain.review import Review
 from src.contexts.reviews.domain.review_repository import ReviewRepository
+
+from typing import List, NoReturn, Optional
 
 
 class InMemoryReviewRepository(ReviewRepository):

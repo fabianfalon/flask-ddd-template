@@ -1,9 +1,9 @@
-from typing import List, NoReturn, Optional
-
 import copy
 
 from src.contexts.courses.domain.course import Course
 from src.contexts.courses.domain.course_repository import CourseRepository
+
+from typing import List, NoReturn, Optional
 
 
 class InMemoryRepository(CourseRepository):

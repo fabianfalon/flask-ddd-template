@@ -1,9 +1,9 @@
-from typing import List, NoReturn, Optional
-
 from abc import ABC, abstractmethod
 
 from src.contexts.courses.domain.course import Course
 from src.contexts.shared.domain.criteria.criteria import Criteria
+
+from typing import List, NoReturn, Optional
 
 
 class CourseRepository(ABC):

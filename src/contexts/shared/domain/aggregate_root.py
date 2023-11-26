@@ -1,5 +1,4 @@
-from abc import abstractmethod, ABC
-from typing import Dict, List, Union
+from abc import ABC
 
 
 class AggregateRoot(ABC):

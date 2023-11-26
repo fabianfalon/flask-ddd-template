@@ -1,6 +1,6 @@
 import os
-import pymongo
 
+import pymongo
 from bson.objectid import ObjectId
 from src.contexts.courses.domain.course import Course
 from src.contexts.courses.domain.course_repository import CourseRepository

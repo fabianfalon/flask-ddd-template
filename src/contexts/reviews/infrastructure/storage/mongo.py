@@ -1,6 +1,6 @@
 import os
-import pymongo
 
+import pymongo
 from bson.objectid import ObjectId
 from src.contexts.reviews.domain.review import Review
 from src.contexts.reviews.domain.review_repository import ReviewRepository
@@ -41,7 +41,7 @@ class MongoRepository(ReviewRepository):
         ...
 
     def find_by_course_id(self, course_id: CourseId) -> Review:
-        reviews = self.database.reviews.find({"course_id": course_id})
+        reviews = self.database.reviews.find({"course_id": course_id.value})
         return [self._create_review(review) for review in reviews]
 
     def update(self, review: Review) -> Optional[Review]:
