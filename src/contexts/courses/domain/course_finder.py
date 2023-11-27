@@ -9,7 +9,7 @@ class CourseFinder:
         self.repository = repository
 
     def execute(self, course_id: CourseId) -> Course:
-        course = self.repository.find_one(course_id.value)
+        course = self.repository.find_one(course_id)
         if not course:
-            raise CourseNotFound(course_id.value)
+            raise CourseNotFound(course_id)
         return course

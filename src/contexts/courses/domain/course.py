@@ -8,22 +8,58 @@ from src.contexts.shared.domain.value_objects.course_id import CourseId
 
 
 class Course(AggregateRoot):
-    id: str
-    title: str
-    duration: float
+    _id: CourseId
+    _title: CourseTitle
+    _duration: CourseDuration
     updated_at: datetime
     created_at: datetime
 
     def __init__(
         self,
-        course_id: CourseId,
-        title: CourseTitle,
-        duration: CourseDuration,
+        course_id: str,
+        title: str,
+        duration: float,
         created_at: None,
         updated_at: None,
     ) -> None:
-        self.id = course_id
-        self.title = title
-        self.duration = duration
+        self._id = CourseId(course_id)
+        self._title = CourseTitle(title)
+        self._duration = CourseDuration(duration)
         self.created_at = datetime.now() if not created_at else created_at
         self.updated_at = datetime.now() if not updated_at else updated_at
+
+    @property
+    def id(self):
+        return self._id.value
+
+    @property
+    def title(self):
+        return self._title.value
+
+    @property
+    def duration(self):
+        return self._duration.value
+
+    @staticmethod
+    def from_primitive(_id, title, duration, created_at, updated_at):
+        return Course(
+            course_id=_id,
+            title=title,
+            duration=duration,
+            created_at=created_at,
+            updated_at=updated_at,
+        )
+
+    @staticmethod
+    def create(course_id, title, duration):
+        """Creates a new Course."""
+        course = Course(
+            course_id=course_id,
+            title=title,
+            duration=duration,
+            updated_at=datetime.now(),
+            created_at=datetime.now(),
+        )
+
+        # logic to public domain event
+        return course

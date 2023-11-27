@@ -63,8 +63,8 @@ class MongoRepository(CourseRepository):
 
     @staticmethod
     def _create_course(course: Dict) -> Course:
-        return Course(
-            course_id=str(course.get("_id")),
+        return Course.from_primitive(
+            _id=str(course.get("_id")),
             title=course.get("title"),
             duration=float(course.get("duration")),
             created_at=course.get("created_at"),
