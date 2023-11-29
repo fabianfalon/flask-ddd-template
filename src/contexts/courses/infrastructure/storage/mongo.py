@@ -15,16 +15,8 @@ class MongoRepository(CourseRepository):
         client = pymongo.MongoClient(MONGO_URL)
         self.database = client.courses
 
-    def save(self, course: Course) -> Course:
-        self.database.courses.insert_one(
-            {
-                "course_id": course.id,
-                "title": course.title,
-                "duration": course.duration,
-                "created_at": course.created_at,
-                "updated_at": course.updated_at,
-            }
-        )
+    def save(self, aggregate_root: Course) -> Course:
+        self.database.courses.insert_one(aggregate_root.to_primitive())
 
     def delete(self, course_id: str) -> NoReturn:
         self.database.courses.delete_one({"_id": ObjectId(course_id)})
@@ -62,11 +54,5 @@ class MongoRepository(CourseRepository):
         return None if not record else self.find(course.id)
 
     @staticmethod
-    def _create_course(course: Dict) -> Course:
-        return Course.from_primitive(
-            _id=str(course.get("_id")),
-            title=course.get("title"),
-            duration=float(course.get("duration")),
-            created_at=course.get("created_at"),
-            updated_at=course.get("updated_at"),
-        )
+    def _create_course(raw_data: Dict) -> Course:
+        return Course.from_primitive(raw_data)

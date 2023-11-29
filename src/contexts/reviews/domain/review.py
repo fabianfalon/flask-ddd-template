@@ -53,3 +53,22 @@ class Review(AggregateRoot):
 
         # logic to public domain event
         return review
+
+    @staticmethod
+    def from_primitive(raw_data: dict) -> AggregateRoot:
+        return Review(
+            review_id=raw_data.get("review_id"),
+            course_id=raw_data.get("course_id"),
+            comment=raw_data.get("comment"),
+            created_at=raw_data.get("created_at"),
+            updated_at=raw_data.get("updated_at"),
+        )
+
+    def to_primitive(self):
+        return {
+            "review_id": self.review_id,
+            "course_id": self.course_id,
+            "comment": self.comment,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+        }

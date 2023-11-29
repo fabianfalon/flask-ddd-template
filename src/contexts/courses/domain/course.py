@@ -41,16 +41,6 @@ class Course(AggregateRoot):
         return self._duration.value
 
     @staticmethod
-    def from_primitive(_id, title, duration, created_at, updated_at):
-        return Course(
-            course_id=_id,
-            title=title,
-            duration=duration,
-            created_at=created_at,
-            updated_at=updated_at,
-        )
-
-    @staticmethod
     def create(course_id, title, duration):
         """Creates a new Course."""
         course = Course(
@@ -63,3 +53,22 @@ class Course(AggregateRoot):
 
         # logic to public domain event
         return course
+
+    @staticmethod
+    def from_primitive(raw_data: dict) -> AggregateRoot:
+        return Course(
+            course_id=raw_data.get("_id"),
+            title=raw_data.get("title"),
+            duration=raw_data.get("duration"),
+            created_at=raw_data.get("created_at"),
+            updated_at=raw_data.get("updated_at"),
+        )
+
+    def to_primitive(self):
+        return {
+            "course_id": self.id,
+            "title": self.title,
+            "duration": self.duration,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+        }

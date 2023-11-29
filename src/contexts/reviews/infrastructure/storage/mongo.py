@@ -16,16 +16,8 @@ class MongoRepository(ReviewRepository):
         client = pymongo.MongoClient(MONGO_URL)
         self.database = client.courses
 
-    def save(self, review: Review) -> Review:
-        self.database.reviews.insert_one(
-            {
-                "review_id": review.review_id,
-                "course_id": review.course_id,
-                "comment": review.comment,
-                "created_at": review.created_at,
-                "updated_at": review.updated_at,
-            }
-        )
+    def save(self, aggregate_root: Review) -> Review:
+        self.database.reviews.insert_one(aggregate_root.to_primitive())
 
     def delete(self, review_id: str) -> NoReturn:
         pass
@@ -57,11 +49,5 @@ class MongoRepository(ReviewRepository):
         return None if not record else self.find(review.id)
 
     @staticmethod
-    def _create_review(review: Dict) -> Review:
-        return Review(
-            review_id=str(review.get("_id")),
-            course_id=str(review.get("course_id")),
-            comment=review.get("comment"),
-            created_at=review.get("created_at"),
-            updated_at=review.get("updated_at"),
-        )
+    def _create_review(raw_data: Dict) -> Review:
+        return Review.from_primitive(raw_data)

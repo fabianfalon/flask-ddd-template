@@ -1,5 +1,12 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class AggregateRoot(ABC):
-    pass
+
+    @abstractmethod
+    def to_primitive(self):
+        ...
+
+    @abstractmethod
+    def from_primitive(self, raw_data: dict):
+        ...
