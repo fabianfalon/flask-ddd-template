@@ -15,10 +15,6 @@ class ReviewRepository(ABC):
         ...
 
     @abstractmethod
-    def delete(self, review_id: str) -> NoReturn:
-        ...
-
-    @abstractmethod
     def find_one(self, review_id: str) -> Optional[Review]:
         ...
 

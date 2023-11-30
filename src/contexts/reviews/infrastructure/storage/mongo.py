@@ -1,52 +1,53 @@
-import os
-
-import pymongo
 from bson.objectid import ObjectId
 from src.contexts.reviews.domain.review import Review
 from src.contexts.reviews.domain.review_repository import ReviewRepository
 from src.contexts.shared.domain.value_objects.course_id import CourseId
+from src.contexts.shared.infrastructure.storage.abstract_mongo_repository import AbstractMongoRepository
 
-from typing import Dict, List, NoReturn, Optional
-
-MONGO_URL = os.environ.get("MONGO_URL", "mongodb://127.0.0.1:27017/courses")
+from typing import Dict, List, Optional
 
 
-class MongoRepository(ReviewRepository):
+class MongoRepository(AbstractMongoRepository, ReviewRepository):
+
     def __init__(self) -> None:
-        client = pymongo.MongoClient(MONGO_URL)
-        self.database = client.courses
+        super().__init__()
 
-    def save(self, aggregate_root: Review) -> Review:
-        self.database.reviews.insert_one(aggregate_root.to_primitive())
-
-    def delete(self, review_id: str) -> NoReturn:
-        pass
+    def collection_name(self):
+        return "reviews"
 
     def find_one(self, review_id: str) -> Optional[Review]:
-        ...
-
-    def find_all(self) -> List[Review]:
-        reviews = self.database.reviews.find()
-        return [self._create_review(review) for review in reviews]
+        review = self.database.get_collection(
+            self.collection_name()
+        ).find_one({"_id": ObjectId(review_id)})
+        return self._create_review(review)
 
     def matching(self, criteria):
         ...
 
+    def find_all(self) -> List[Review]:
+        reviews = self.database.get_collection(
+            self.collection_name()
+        ).find()
+        return [self._create_review(review) for review in reviews]
+
     def find_by_course_id(self, course_id: CourseId) -> Review:
-        reviews = self.database.reviews.find({"course_id": course_id.value})
+        reviews = self.database.get_collection(
+            self.collection_name()
+        ).find({"course_id": course_id.value})
         return [self._create_review(review) for review in reviews]
 
     def update(self, review: Review) -> Optional[Review]:
-        record = self.database.reviews.update_one(
+        comment = review.to_primitive().get("comment")
+        record = self.database.get_collection(
+            self.collection_name()
+        ).update_one(
             {"_id": ObjectId(review.id)},
             {
-                "$set": {
-                    "comment": review.comment,
-                }
+                "$set": {"comment": comment}
             },
             upsert=False,
         )
-        return None if not record else self.find(review.id)
+        return None if not self._create_review(record) else self.find_one(review.id)
 
     @staticmethod
     def _create_review(raw_data: Dict) -> Review:

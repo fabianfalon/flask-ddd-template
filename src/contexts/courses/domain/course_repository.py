@@ -7,7 +7,7 @@ from typing import List, NoReturn, Optional
 
 
 class CourseRepository(ABC):
-    """docstring for CourseRepository"""
+    """CourseRepository"""
 
     @abstractmethod
     def save(self, course: Course) -> Course:

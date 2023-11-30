@@ -23,7 +23,11 @@ class InMemoryReviewRepository(ReviewRepository):
         pass
 
     def find_by_course_id(self, course_id) -> Optional[Review]:
-        return next(filter(lambda x: (x.course_id == course_id), self._reviews), None)
+        result = []
+        for review in self._reviews:
+            if review.course_id == course_id.value:
+                result.append(review)
+        return result
 
     def clear(self):
         self._reviews = []
