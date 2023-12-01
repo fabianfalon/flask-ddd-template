@@ -11,8 +11,6 @@ def create_app() -> Flask:
     app = Flask(__name__)
 
     container = Containers()
-    container.init_resources()
-    container.wire(modules=[sys.modules[__name__]])
     app.container = container
 
     app.secret_key = "very-secret-key"

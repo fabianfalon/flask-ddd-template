@@ -3,13 +3,13 @@ from uuid import uuid4
 from src.app.controllers.controller import ControllerInterfaz
 from src.contexts.courses.application.create.course_creator import CourseCreator
 from src.contexts.courses.domain.course import Course
-from src.contexts.courses.infrastructure.storage.mongo import MongoRepository
-from src.contexts.shared.infrastructure.eventbus.in_memory_event_bus import InMemoryEventBus
+from src.contexts.courses.domain.course_repository import CourseRepository
+from src.contexts.shared.domain.event_bus import EventBus
 
 
 class CreateCourseController(ControllerInterfaz):
 
-    def __int__(self, repository, event_bus):
+    def __init__(self, repository: CourseRepository, event_bus: EventBus):
         self.__repository = repository
         self.__event_bus = event_bus
 
