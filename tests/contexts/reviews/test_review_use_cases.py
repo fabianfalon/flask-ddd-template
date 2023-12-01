@@ -7,12 +7,18 @@ from src.contexts.reviews.infrastructure.storage.in_memory import InMemoryReview
 from src.contexts.courses.application.create.course_creator import CourseCreator
 from src.contexts.courses.infrastructure.storage.in_memory import InMemoryRepository as InMemoryCourseRepository
 from src.contexts.courses.application.find.course_finder import CourseFinder
+from src.contexts.shared.infrastructure.eventbus.in_memory_event_bus import InMemoryEventBus
 
 
 def test_create_new_review_ok():
+    event_bus = InMemoryEventBus()
+
     course_repository = InMemoryCourseRepository()
     course_repository.clear()
-    course = CourseCreator(course_repository).execute(str(uuid4()), "test", 60)
+    course = CourseCreator(
+        course_repository,
+        event_bus
+    ).execute(str(uuid4()), "test", 60)
 
     finder = CourseFinder(course_repository)
     review_repository = InMemoryReviewRepository()
@@ -28,9 +34,14 @@ def test_create_new_review_ok():
 
 
 def test_get_review_list_ok():
+    event_bus = InMemoryEventBus()
+
     course_repository = InMemoryCourseRepository()
     course_repository.clear()
-    course = CourseCreator(course_repository).execute(str(uuid4()), "test", 60)
+    course = CourseCreator(
+        course_repository,
+        event_bus
+    ).execute(str(uuid4()), "test", 60)
 
     finder = CourseFinder(course_repository)
     review_repository = InMemoryReviewRepository()
