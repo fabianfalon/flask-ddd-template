@@ -1,6 +1,7 @@
 """ Course Domain """
 from datetime import datetime
 
+from src.contexts.courses.domain.domainevents.course_domain_event import CourseCreatedEvent
 from src.contexts.courses.domain.value_objects.course_duration import CourseDuration
 from src.contexts.courses.domain.value_objects.course_title import CourseTitle
 from src.contexts.shared.domain.aggregate_root import AggregateRoot
@@ -22,6 +23,7 @@ class Course(AggregateRoot):
         created_at: None,
         updated_at: None,
     ) -> None:
+        super().__init__()
         self._id = CourseId(course_id)
         self._title = CourseTitle(title)
         self._duration = CourseDuration(duration)
@@ -52,6 +54,10 @@ class Course(AggregateRoot):
         )
 
         # logic to public domain event
+
+        event = CourseCreatedEvent(course.id, course)
+        course.record_events(event)
+
         return course
 
     @staticmethod
