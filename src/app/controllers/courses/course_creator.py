@@ -8,11 +8,16 @@ from src.contexts.shared.infrastructure.eventbus.in_memory_event_bus import InMe
 
 
 class CreateCourseController(ControllerInterfaz):
+
+    def __int__(self, repository, event_bus):
+        self.__repository = repository
+        self.__event_bus = event_bus
+
     def execute(self, request) -> Course:
         title = request.json.get("title")
         duration = request.json.get("duration")
         course = CourseCreator(
-            repository=MongoRepository(),
-            event_bus=InMemoryEventBus()
+            repository=self.__repository,
+            event_bus=self.__event_bus
         ).execute(str(uuid4()), title, duration)
         return course

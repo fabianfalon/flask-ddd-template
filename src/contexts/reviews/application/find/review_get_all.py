@@ -6,6 +6,7 @@ from typing import List
 
 
 class ReviewGetAllByCourse:
+
     def __init__(self, repository: ReviewRepository) -> None:
         self.repository = repository
 

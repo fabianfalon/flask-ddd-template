@@ -1,5 +1,7 @@
+from dependency_injector.wiring import inject, Provide
 from flask import Blueprint, request
-from src.app.controllers.courses.course_creator import CreateCourseController
+
+from src.app.injections.containers import Containers
 from src.app.controllers.courses.course_finder import CourseFinderController
 from src.app.controllers.courses.course_list import GetCourseController
 from src.app.controllers.reviews.review_creator import CreateReviewController
@@ -11,9 +13,12 @@ blueprint = Blueprint("course", __name__)
 
 
 @blueprint.route("/courses", methods=("POST", "GET"))
-def create():
+@inject
+def create(
+    controller=Provide[Containers.course_creator_controller]
+):
     if request.method == "POST":
-        course = CreateCourseController().execute(request)
+        course = controller.execute(request)
         return CourseSchema().dump(course), 200
     courses = GetCourseController().execute()
 
@@ -32,11 +37,14 @@ def course_finder(course_id):
 
 
 @blueprint.route("/courses/<course_id>/review", methods=("GET", "POST"))
-def course_review_creator(course_id):
+@inject
+def course_review_creator(
+    course_id,
+    review_list_controller=Provide[Containers.review_list_controller],
+):
     if request.method == "POST":
         review = CreateReviewController().execute(request, course_id)
         return ReviewSchema().dump(review), 200
-
-    reviews = ListReviewByCourseController().execute(course_id)
+    reviews = review_list_controller.execute(course_id)
     data = ReviewSchema(many=True).dump(reviews)
     return {"data": data}, 200
