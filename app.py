@@ -1,5 +1,3 @@
-import sys
-
 from flask import Flask
 
 from src.app.injections.containers import Containers

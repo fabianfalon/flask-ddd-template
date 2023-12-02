@@ -1,11 +1,12 @@
 from dependency_injector import containers, providers
 
-from src.app.controllers.courses.course_creator import CreateCourseController
-from src.app.controllers.reviews.review_creator import CreateReviewController
-from src.app.controllers.reviews.review_list_by_course import ListReviewByCourseController
+from src.contexts.courses.application.create.course_creator import CourseCreator
+from src.contexts.courses.application.create.course_get_all import CourseGetAll
 from src.contexts.courses.domain.course_finder import CourseFinder
 
 from src.contexts.courses.infrastructure.storage.mongo import MongoRepository as CourseMongoRepository
+from src.contexts.reviews.application.create.review_creator import ReviewCreator
+from src.contexts.reviews.application.find.review_get_all import ReviewGetAllByCourse
 from src.contexts.shared.infrastructure.eventbus.in_memory_event_bus import InMemoryEventBus
 
 from src.contexts.reviews.infrastructure.storage.mongo import MongoRepository as ReviewMongoRepository
@@ -15,20 +16,24 @@ class Containers(containers.DeclarativeContainer):
     course_repository = providers.Singleton(CourseMongoRepository)
     event_bus = providers.Singleton(InMemoryEventBus)
 
-    course_creator_controller = providers.Singleton(
-        CreateCourseController,
-        repository=course_repository,
-        event_bus=event_bus
+    course_creator = providers.Singleton(
+        CourseCreator, course_repository, event_bus
     )
+
+    course_get_all = providers.Singleton(
+        CourseGetAll, course_repository
+    )
+    #### reviews containers
     review_repository = providers.Singleton(ReviewMongoRepository)
-    review_list_controller = providers.Singleton(ListReviewByCourseController, review_repository, event_bus)
-
     finder = providers.Singleton(CourseFinder, course_repository)
-    create_review_controller = providers.Singleton(
-        CreateReviewController,
-        review_repository, finder
+
+    review_creator = providers.Singleton(
+        ReviewCreator, review_repository, finder
     )
 
+    review_get_all_by_course = providers.Singleton(
+        ReviewGetAllByCourse, review_repository
+    )
 
 
 containers_app: Containers = Containers()
