@@ -9,12 +9,9 @@ from src.contexts.courses.domain.course import Course
 class GetCourseController(ControllerInterfaz):
 
     @inject
-    def __init__(
-        self,
-        get_course_all: CourseGetAll = Provide[Containers.course_get_all]
-    ) -> None:
-        self.get_course_all = get_course_all
+    def __init__(self, use_case: CourseGetAll = Provide[Containers.course_get_all]) -> None:
+        self.use_case = use_case
 
     def execute(self, request) -> Course:
-        course = self.get_course_all.execute(request)
+        course = self.use_case.execute(request)
         return course

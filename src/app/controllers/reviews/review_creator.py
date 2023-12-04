@@ -11,13 +11,10 @@ from src.contexts.reviews.domain.review import Review
 class CreateReviewController(ControllerInterfaz):
 
     @inject
-    def __init__(
-        self,
-        review_creator: ReviewCreator = Provide[Containers.review_creator]
-    ) -> None:
-        self.review_creator = review_creator
+    def __init__(self, use_case: ReviewCreator = Provide[Containers.review_creator]) -> None:
+        self.use_case = use_case
 
     def execute(self, request, course_id) -> Review:
         comment = request.json.get("comment")
-        review = self.review_creator.execute(str(uuid4()), course_id, comment)
+        review = self.use_case.execute(str(uuid4()), course_id, comment)
         return review

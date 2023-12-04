@@ -36,4 +36,4 @@ class Containers(containers.DeclarativeContainer):
     )
 
 
-containers_app: Containers = Containers()
+# containers_app: Containers = Containers()

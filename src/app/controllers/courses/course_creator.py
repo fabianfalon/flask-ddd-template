@@ -11,14 +11,11 @@ from src.contexts.courses.domain.course import Course
 class CreateCourseController(ControllerInterfaz):
 
     @inject
-    def __init__(
-        self,
-        course_creator: CourseCreator = Provide[Containers.course_creator]
-    ) -> None:
-        self.course_creator = course_creator
+    def __init__(self, use_case: CourseCreator = Provide[Containers.course_creator]) -> None:
+        self.use_case = use_case
 
     def execute(self, request) -> Course:
         title = request.json.get("title")
         duration = request.json.get("duration")
-        course = self.course_creator.execute(str(uuid4()), title, duration)
+        course = self.use_case.execute(str(uuid4()), title, duration)
         return course

@@ -1,18 +1,23 @@
 import importlib
+import glob
 
-from src.app.injections.containers import containers_app
+from src.app.injections.containers import Containers
 
-course_creator = importlib.import_module("src.app.controllers.courses.course_creator")
-course_list = importlib.import_module("src.app.controllers.courses.course_list")
+container = Containers()
 
-review_creator = importlib.import_module("src.app.controllers.reviews.review_creator")
-review_list = importlib.import_module("src.app.controllers.reviews.review_list_by_course")
+# Ruta al directorio que contiene los módulos
+modules_directory = "src/app/controllers/"
 
-containers_app.wire(
-    modules=[
-        course_creator,
-        course_list,
-        review_creator,
-        review_list
-    ]
-)
+# Obtener la lista de todos los archivos Python en el directorio
+module_files = glob.glob(f"{modules_directory}/**/*.py", recursive=True)
+
+# Importar cada módulo encontrado dinámicamente
+for module_file in module_files:
+    # Obtener la ruta relativa del módulo (reemplazar barras con puntos para importar)
+    module_path = module_file.replace("/", ".").replace("\\", ".")[:-3]
+
+    # Importar el módulo dinámicamente
+    module = importlib.import_module(module_path)
+
+    # Incluir el módulo en la configuración del contenedor
+    container.wire(modules=[module])

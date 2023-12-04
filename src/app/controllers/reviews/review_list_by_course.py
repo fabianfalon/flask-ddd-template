@@ -11,13 +11,13 @@ class ListReviewByCourseController(ControllerInterfaz):
     @inject
     def __init__(
         self,
-        review_get_all_by_course: ReviewGetAllByCourse = Provide[Containers.review_get_all_by_course]
+        use_case: ReviewGetAllByCourse = Provide[Containers.review_get_all_by_course]
     ) -> None:
-        self.review_get_all_by_course = review_get_all_by_course
+        self.use_case = use_case
 
     def execute(self, course_id) -> Review:
         try:
-            review = self.review_get_all_by_course.execute(course_id)
+            review = self.use_case.execute(course_id)
         except Exception as error:
             return error
         return review
