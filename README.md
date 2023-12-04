@@ -26,3 +26,7 @@ https://github.com/CodelyTV/typescript-ddd-example/tree/master/src/Contexts
 https://github.com/miguelgrubin/fastapi-boilerplate-large/blob/master/README.md
 
 -->
+
+[Publishing domain events](https://github.com/fabianfalon/flask-ddd-template/tree/publish-domain-event)
+[Adding dependency injection.](https://github.com/fabianfalon/flask-ddd-template/tree/dependency-injector-v2)
+
